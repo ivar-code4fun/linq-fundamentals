@@ -13,6 +13,26 @@ namespace Introduction
         {
             var path = @"C:\Windows";
             ShowLargestFileWithoutLinq(path);
+            Console.WriteLine("****************************");
+            ShowLargestFileWithLinq(path);
+        }
+
+        private static void ShowLargestFileWithLinq(string path)
+        {
+            //var query = from file in new DirectoryInfo(path).GetFiles()
+            //            orderby file.Length descending
+            //            select file;
+
+            var query = new DirectoryInfo(path).GetFiles()
+                            .OrderByDescending(file => file.Length)
+                            .Take(5);
+
+            //foreach (var file in query.Take(5))
+            foreach (var file in query)
+            {
+                Console.WriteLine("{0, -20} : {1, 10:N0}", file.Name, file.Length);
+            }
+
         }
 
         private static void ShowLargestFileWithoutLinq(string path)
@@ -29,7 +49,7 @@ namespace Introduction
             for (int i = 0; i < 5; i++)
             {
                 FileInfo file = files[i];
-                Console.WriteLine("{0, -20} : {1, 10:N}", file.Name, file.Length);
+                Console.WriteLine("{0, -20} : {1, 10:N0}", file.Name, file.Length);
             }
         }
 
